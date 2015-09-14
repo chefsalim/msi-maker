@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Msi-maker by chefsalim</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Msi-maker</h1>
+        <p>Chef cookbook to create simple MSIs</p>
+
+        <p class="view"><a href="https://github.com/chefsalim/msi-maker">View the Project on GitHub <small>chefsalim/msi-maker</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/chefsalim/msi-maker/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/chefsalim/msi-maker/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/chefsalim/msi-maker">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="msi-maker" class="anchor" href="#msi-maker" aria-hidden="true"><span class="octicon octicon-link"></span></a>msi-maker</h1>
+
+<p>The <em>msi-maker</em> cookbook is a simple Windows Installer Package (MSI) builder.</p>
+
+<p>It addresses the scenario of bundling up a set of files into an MSI to be installed on a target machine into a target folder. Sometimes, this is all that is needed (e.g., for 'portable' apps), and this cookbook makes it simple to build the MSI with a single Chef command. It does not try to do much more than that, although it would be fairly straightforward to modify the cookbook to add more bells and whistles.</p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Simply clone the repo locally to get started:</p>
+
+<div class="highlight highlight-source-powershell"><pre>git clone https:<span class="pl-k">//</span>github.com<span class="pl-k">/</span>chefsalim<span class="pl-k">/</span>msi<span class="pl-k">-</span>maker.git</pre></div>
+
+<p>See instructions below for how to use the cookbook.</p>
+
+<h2>
+<a id="features-and-capabilities" class="anchor" href="#features-and-capabilities" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features and capabilities</h2>
+
+<p>The <em>msi-maker</em> cookbook provides:</p>
+
+<ul>
+<li>Capability to build a MSI using a single chef command</li>
+<li>Harvest a set of files (and any sub-folders, etc) from a folder automatically</li>
+<li>Provide a simple UI (can be by-passed) to select a destination folder</li>
+<li>Easy to modify for your own needs</li>
+</ul>
+
+<h2>
+<a id="who-should-use-this-cookbook" class="anchor" href="#who-should-use-this-cookbook" aria-hidden="true"><span class="octicon octicon-link"></span></a>Who should use this cookbook?</h2>
+
+<p>Anyone who has a need to build MSI packages in an automated manner can potentially use and benefit from this cookbook.</p>
+
+<h2>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements</h2>
+
+<p>This cookbook supports only the Windows operating system. It requires
+Windows Server 2008 / Windows 7 or later (per the Chef supported platforms).</p>
+
+<h2>
+<a id="pre-requisites" class="anchor" href="#pre-requisites" aria-hidden="true"><span class="octicon octicon-link"></span></a>Pre-requisites</h2>
+
+<p>You must have the following installed on your machine in order to install and use this cookbook:</p>
+
+<ol>
+<li><p>Git tools. Download and install from <a href="https://git-scm.com/downloads">https://git-scm.com/downloads</a> or via Chocolatey (choco install git) if needed.</p></li>
+<li><p>WiX Toolset (any recent version should be fine). Install from <a href="http://wixtoolset.org">http://wixtoolset.org</a> or via Chocolatey (choco install wixtoolset). Make sure the WIX toolset binaries are in your path.</p></li>
+<li><p>Chef-client must be installed. Simply install ChefDK from <a href="https://downloads.chef.io/chef-dk">https://downloads.chef.io/chef-dk</a> to get Chef Client and other goodies.</p></li>
+</ol>
+
+<h2>
+<a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to use</h2>
+
+<p>Using this cookbook is straightforward:</p>
+
+<ol>
+<li>Clone the cookbook locally</li>
+<li>Edit msi-maker/attributes/default.rb to customize your settings</li>
+<li>Run Berkshelf to prepare the cookbook</li>
+<li>Run chef-client to package up your files and create the MSI</li>
+</ol>
+
+<div class="highlight highlight-source-powershell"><pre><span class="pl-c"># Clone this repository and cd to it</span>
+git clone https:<span class="pl-k">//</span>github.com<span class="pl-k">/</span>chefsalim<span class="pl-k">/</span>msi<span class="pl-k">-</span>maker.git
+cd msi<span class="pl-k">-</span>maker
+
+<span class="pl-c"># Edit the attributes file (use whatever favorite editor you prefer)</span>
+notepad attributes<span class="pl-k">/</span>default.rb
+
+<span class="pl-c"># Use Berkshelf to prepare the cookbook and any dependencies</span>
+berks vendor cookbooks
+
+<span class="pl-c"># Run `chef-client` in local mode to create the MSI</span>
+chef<span class="pl-k">-</span>client <span class="pl-k">-</span>z <span class="pl-k">-</span>o <span class="pl-s">'msi-maker'</span></pre></div>
+
+<p>After a short while, the MSI should be created in your output folder (the one that you specified in step 2)</p>
+
+<p>You can execute the MSI file normally which will present a UI for installation, or you can invoke it without a UI, e.g.:</p>
+
+<div class="highlight highlight-source-powershell"><pre>your<span class="pl-k">-</span>app.msi TARGETDIR<span class="pl-k">=</span>C:\ <span class="pl-k">/</span>quiet</pre></div>
+
+<h2>
+<a id="troubleshooting" class="anchor" href="#troubleshooting" aria-hidden="true"><span class="octicon octicon-link"></span></a>Troubleshooting</h2>
+
+<p>In case you run into errors, make sure to double check all your settings in the attributes/default.rb file, and try again.</p>
+
+<p>Please also ensure the the WIX Toolset binaries are in your path.</p>
+
+<p>If you get a Berkshelf error, try deleting the generated cookbooks folder and re-try.</p>
+
+<p>Also, note that once the MSI is created in the designated output folder, a second run of chef-client will not try to re-create it (as the Chef recipes are idempotent). Either delete the MSI, or change your settings in the attributes/default.rb to point to a different output folder or different app name.</p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>Copyright:: Copyright (c) 2015 Salim Alam</p>
+
+<p>License:: Apache License, Version 2.0</p>
+
+<p>Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at</p>
+
+<pre><code>http://www.apache.org/licenses/LICENSE-2.0
+</code></pre>
+
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/chefsalim">chefsalim</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
