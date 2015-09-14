@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+ 
+ <Product Id="*" 
+          Name="<%= node.default['msi-maker']['program_name'] %>"
+          UpgradeCode="<%= node.default['msi-maker']['upgrade_code'] %>"
+          Manufacturer="<%= node.default['msi-maker']['manufacturer'] %>"
+          Version="<%= node.default['msi-maker']['version'] %>" 
+          Language="1033">
+          
+    <Package InstallerVersion="200" Compressed="yes" Comments="Windows Installer Package"/>
+    
+    <Media Id="1" Cabinet="product.cab" EmbedCab="yes"/>
+  
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="MyProgramDir" Name="<%= node.default['msi-maker']['install_dir'] %>" />
+    </Directory>
+
+    <Property Id="WIXUI_INSTALLDIR" Value="MyProgramDir" />
+    
+    <Feature Id="ProductFeature"
+             Title="CopyFiles"
+             Level="1">
+        <ComponentGroupRef Id="MyFilesGroup" />
+    </Feature>
+
+    <UIRef Id="WixUI_InstallDir" />
+  </Product>
+</Wix>
